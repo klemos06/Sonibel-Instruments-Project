@@ -1,0 +1,19 @@
+[Unit]
+Description=Seal DAQ DB, upload backlog DBs, and power off
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+Group=root
+Environment=DAQ_SERVICE=nucorDAQ.service
+Environment=BACKGROUND_UPLOAD_SERVICE=unmodified-daq-backlog-uploader.service
+Environment=BATTERY_UPLOAD_SERVICE=unmodified-daq-battery-upload.service
+Environment=SEAL_SCRIPT=/opt/Pilot_Deployment/seal_active_daq_db_to_backlog.sh
+Environment=POWER_OFF_AFTER_UPLOAD=1
+WorkingDirectory=/opt/Pilot_Deployment
+ExecStart=/opt/Pilot_Deployment/unmodified-daq-power-loss-flow.sh
+TimeoutStartSec=40min
+StandardOutput=append:/var/log/unmodifiedDaqPowerLossFlow.log
+StandardError=append:/var/log/unmodifiedDaqPowerLossFlow.log

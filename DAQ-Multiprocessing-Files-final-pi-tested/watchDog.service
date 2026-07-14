@@ -1,0 +1,25 @@
+[Unit]
+Description=Watch GPIO6 for power loss and begin S3 upload
+After=multi-user.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+Environment=GPIO_PIN=6
+Environment=GPIO_PULL_UP=true
+Environment=POWER_LOSS_ACTIVE_STATE=0
+Environment=DEBOUNCE_SECONDS=1.0
+Environment=COOLDOWN_SECONDS=10.0
+Environment=UPLOAD_SERVICE=unmodified-daq-power-loss-flow.service
+Environment=TEST_TRIGGER_FILE=/tmp/force-power-loss-upload
+Environment="DAQ_SERVICES="
+WorkingDirectory=/opt/Pilot_Deployment
+ExecStart=/opt/Pilot_Deployment/watchDog.sh
+Restart=always
+RestartSec=2
+StandardOutput=append:/var/log/watchDog.log
+StandardError=append:/var/log/watchDog.log
+
+[Install]
+WantedBy=multi-user.target

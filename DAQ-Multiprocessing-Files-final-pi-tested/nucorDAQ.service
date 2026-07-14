@@ -1,0 +1,17 @@
+[Unit]
+Description=Operation Rising Tower - Sonibel Instruments
+After=network.target
+
+[Service]
+ExecStart=/opt/Pilot_Deployment/nucorDAQ
+WorkingDirectory=/opt/Pilot_Deployment
+User=root
+Restart=always
+TimeoutStopSec=60
+KillMode=control-group
+
+StandardOutput=append:/var/log/nucorDAQ.log
+StandardError=append:/var/log/nucorDAQ.log
+
+[Install]
+WantedBy=multi-user.target
